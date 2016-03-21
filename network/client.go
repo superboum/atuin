@@ -34,7 +34,7 @@ func (c *Client) HandleRequest() {
 			fmt.Printf("protocol version: %d\n", p.ReadVarInt())
 			fmt.Printf("address: %s\n", p.ReadString())
 			fmt.Printf("port: %d\n", p.ReadUnsignedShort())
-			fmt.Printf("next state: %#x", p.ReadVarInt())
+			fmt.Printf("next state: %#x\n", p.ReadVarInt())
 		}
 
 	}

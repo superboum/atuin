@@ -2,7 +2,6 @@ package network
 
 import (
 	"encoding/binary"
-	"fmt"
 )
 
 type Packet struct {
@@ -38,12 +37,17 @@ func (p *Packet) ReadUnsignedShort() uint16 {
 }
 
 func (p *Packet) ReadVarInt() int64 {
-	value, size := binary.Varint(p.buffer[p.cursor:])
-	if size == 0 {
-		fmt.Println("Error, unable to decoded varint")
+	value := int64(0)
+	size := uint32(0)
+
+	for p.buffer[p.cursor]>>7 == 1 {
+		value |= int64(p.buffer[p.cursor]&0x7F) << (size * 7)
+		p.cursor++
+		size++
 	}
-	fmt.Printf("decoded size: %d\n", size)
-	p.cursor += size
+	value |= int64(p.buffer[p.cursor]&0x7f) << (size * 7)
+	p.cursor += 1
+
 	return value
 }
 
