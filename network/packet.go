@@ -9,6 +9,11 @@ type Packet struct {
 	cursor int
 }
 
+const (
+	SRV_UNDEFINED = 0x00
+	SRV_HANDSHAKE = 0x01
+)
+
 func NewPacket(buf []byte) *Packet {
 	p := new(Packet)
 	//@FIXME Should we recopy the content of the buffer

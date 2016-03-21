@@ -3,8 +3,6 @@ package main
 import (
 	"diorite/network"
 	"fmt"
-	"net"
-	"os"
 )
 
 const (
@@ -14,24 +12,8 @@ const (
 
 func main() {
 	fmt.Println("DIORITE FRONT")
-	ln, err := net.Listen("tcp", CONN_HOST+":"+CONN_PORT)
 
-	if err != nil {
-		fmt.Println("Unable to listen on port 25565.", err.Error())
-		os.Exit(1)
-	}
-
-	defer ln.Close()
-	fmt.Println("Listening on " + CONN_HOST + ":" + CONN_PORT)
-
-	for {
-		conn, err := ln.Accept()
-		if err != nil {
-			fmt.Println("Unable to accept connection.", err.Error())
-		}
-		defer conn.Close()
-
-		client := network.NewClient(conn)
-		go client.HandleRequest()
-	}
+	networkManager := network.NewManager()
+	networkManager.RegisterCommand(0x01, network.NewHandshake)
+	networkManager.Listen(CONN_HOST, CONN_PORT)
 }
