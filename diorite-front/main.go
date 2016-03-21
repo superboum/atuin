@@ -14,5 +14,6 @@ func main() {
 	fmt.Println("DIORITE FRONT")
 
 	networkManager := network.NewManager()
+	networkManager.RegisterCommand(0, network.NewHandshake)
 	networkManager.Listen(CONN_HOST, CONN_PORT)
 }

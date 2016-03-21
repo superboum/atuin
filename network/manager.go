@@ -13,7 +13,6 @@ type Manager struct {
 func NewManager() *Manager {
 	m := new(Manager)
 	m.constructors = make(map[byte]func(*Packet) Command)
-	m.RegisterCommand(0, NewHandshake)
 	return m
 }
 
