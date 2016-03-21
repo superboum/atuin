@@ -25,6 +25,18 @@ func (c *Client) HandleRequest() {
 			return
 		}
 		fmt.Printf("msg: %#x\n", buf[:n])
+
+		//Hardcoded test
+		p := NewPacket(buf)
+		if p.GetLength() == 15 {
+			fmt.Printf("Packet\nsize: %d bytes\n", p.GetLength())
+			fmt.Printf("command: %#x\n", p.GetCommand())
+			fmt.Printf("protocol version: %d\n", p.ReadVarInt())
+			fmt.Printf("address: %s\n", p.ReadString())
+			fmt.Printf("port: %d\n", p.ReadUnsignedShort())
+			fmt.Printf("next state: %#x", p.ReadVarInt())
+		}
+
 	}
 
 }
