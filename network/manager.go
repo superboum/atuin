@@ -13,6 +13,7 @@ type Manager struct {
 func NewManager() *Manager {
 	m := new(Manager)
 	m.constructors = make(map[byte]func(*Packet) Command)
+	m.RegisterCommand(0, NewHandshake)
 	return m
 }
 
@@ -21,7 +22,10 @@ func (m *Manager) RegisterCommand(cmd byte, fn func(*Packet) Command) {
 }
 
 func (m *Manager) Dispatch(p *Packet) Command {
-	return m.constructors[p.GetCommand()](p)
+	if fn, ok := m.constructors[p.GetCommand()]; ok {
+		return fn(p)
+	}
+	return nil
 }
 
 func (m *Manager) Listen(host string, port string) {
@@ -42,7 +46,7 @@ func (m *Manager) Listen(host string, port string) {
 		}
 		defer conn.Close()
 
-		client := NewClient(conn)
+		client := NewClient(conn, m)
 		go client.HandleRequest()
 	}
 }

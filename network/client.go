@@ -7,18 +7,21 @@ import (
 )
 
 type Client struct {
-	co net.Conn
+	co      net.Conn
+	manager *Manager
 }
 
-func NewClient(co net.Conn) *Client {
+func NewClient(co net.Conn, m *Manager) *Client {
 	c := new(Client)
 	c.co = co
+	c.manager = m
 	return c
 }
 
 func (c *Client) HandleRequest() {
 	buf := make([]byte, 4096)
 	for {
+		//@FIXME Read only first varint and after read a buffer of this size.
 		n, err := c.co.Read(buf)
 		if err != nil {
 			fmt.Println("Unable to read message.", err.Error())
@@ -28,14 +31,8 @@ func (c *Client) HandleRequest() {
 
 		//Hardcoded test
 		p := NewPacket(buf)
-		if p.GetLength() == 15 {
-			fmt.Printf("Packet\nsize: %d bytes\n", p.GetLength())
-			fmt.Printf("command: %#x\n", p.GetCommand())
-			fmt.Printf("protocol version: %d\n", p.ReadVarInt())
-			fmt.Printf("address: %s\n", p.ReadString())
-			fmt.Printf("port: %d\n", p.ReadUnsignedShort())
-			fmt.Printf("next state: %#x\n", p.ReadVarInt())
-		}
+		cmd := c.manager.Dispatch(p)
+		fmt.Println(cmd)
 
 	}
 

@@ -23,10 +23,12 @@ func NewPacket(buf []byte) *Packet {
 	return p
 }
 
+//@FIXME Should be a VarInt
 func (p *Packet) GetLength() byte {
 	return p.GetByte(0)
 }
 
+//@FIXME Should be a VarInt
 func (p *Packet) GetCommand() byte {
 	return p.GetByte(1)
 }
