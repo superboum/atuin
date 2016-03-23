@@ -7,16 +7,16 @@ import (
 )
 
 type Manager struct {
-	constructors map[byte]func(*Packet) Command
+	constructors map[int64]func(*Packet) Command
 }
 
 func NewManager() *Manager {
 	m := new(Manager)
-	m.constructors = make(map[byte]func(*Packet) Command)
+	m.constructors = make(map[int64]func(*Packet) Command)
 	return m
 }
 
-func (m *Manager) RegisterCommand(cmd byte, fn func(*Packet) Command) {
+func (m *Manager) RegisterCommand(cmd int64, fn func(*Packet) Command) {
 	m.constructors[cmd] = fn
 }
 

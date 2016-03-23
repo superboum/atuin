@@ -5,8 +5,10 @@ import (
 )
 
 type Packet struct {
-	buffer []byte
-	cursor int
+	buffer  []byte
+	cursor  int
+	length  int64
+	command int64
 }
 
 const (
@@ -19,18 +21,20 @@ func NewPacket(buf []byte) *Packet {
 	//@FIXME Should we recopy the content of the buffer
 	//or keep it like it ?
 	p.buffer = buf
-	p.cursor = 2
+	p.cursor = 0
+	p.length = p.ReadVarInt()
+	p.command = p.ReadVarInt()
 	return p
 }
 
 //@FIXME Should be a VarInt
-func (p *Packet) GetLength() byte {
-	return p.GetByte(0)
+func (p *Packet) GetLength() int64 {
+	return p.length
 }
 
 //@FIXME Should be a VarInt
-func (p *Packet) GetCommand() byte {
-	return p.GetByte(1)
+func (p *Packet) GetCommand() int64 {
+	return p.command
 }
 
 func (p *Packet) GetByte(pos int) byte {
