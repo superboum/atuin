@@ -1,7 +1,7 @@
 package main
 
 import (
-	"diorite/network"
+	"atuin/network"
 	"fmt"
 )
 

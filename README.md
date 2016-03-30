@@ -1,5 +1,5 @@
-Diorite
-=======
+Atuin
+=====
 
 *Disclaimer : This project is in early dev. It may never been released and is currently not usable*
 
@@ -16,6 +16,6 @@ go install diorite/...
 Components
 ----------
 
- * **diorite-front** Handle connections and load balancing
- * **diorite-world** Handle world simulation
+ * **atuin-front** Handle connections and load balancing
+ * **atuin-world** Handle world simulation
 
