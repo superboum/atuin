@@ -1,8 +1,8 @@
 package main
 
 import (
-	"atuin/network"
 	"fmt"
+	"github.com/superboum/atuin/network"
 )
 
 const (
