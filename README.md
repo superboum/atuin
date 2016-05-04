@@ -9,8 +9,14 @@ Build
 -----
 
 ```
-git clone git@github.com:superboum/atuin.git
-go install atuin/...
+go get github.com:superboum/atuin/...
+```
+
+Tests
+-----
+
+```
+go test github.com:superboum/atuin/...
 ```
 
 Components
