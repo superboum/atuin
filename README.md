@@ -3,7 +3,7 @@ Atuin
 
 *Disclaimer : This project is in early dev. It may never been released and is currently not usable*
 
-atuin is a projet to implement a Minecraft Server with a micro architecture design in golang.
+atuin is a personal project which aims at implementing a Minecraft Server with a micro architecture design in golang.
 
 Build
 -----
