@@ -5,10 +5,11 @@ import (
 )
 
 type Packet struct {
-	buffer  []byte
-	cursor  int
-	length  int64
-	command int64
+	buffer     []byte
+	cursor     int
+	length     int64
+	fullLength int64
+	command    int64
 }
 
 const (
@@ -20,19 +21,22 @@ func NewPacket(buf []byte) *Packet {
 	p := new(Packet)
 	//@FIXME Should we recopy the content of the buffer
 	//or keep it like it ?
-	p.buffer = buf
 	p.cursor = 0
+	p.buffer = buf
 	p.length = p.ReadVarInt()
+	p.fullLength = p.length + int64(p.cursor)
 	p.command = p.ReadVarInt()
 	return p
 }
 
-//@FIXME Should be a VarInt
 func (p *Packet) GetLength() int64 {
 	return p.length
 }
 
-//@FIXME Should be a VarInt
+func (p *Packet) GetFullLength() int64 {
+	return p.fullLength
+}
+
 func (p *Packet) GetCommand() int64 {
 	return p.command
 }
@@ -48,17 +52,8 @@ func (p *Packet) ReadUnsignedShort() uint16 {
 }
 
 func (p *Packet) ReadVarInt() int64 {
-	value := int64(0)
-	size := uint32(0)
-
-	for p.buffer[p.cursor]>>7 == 1 {
-		value |= int64(p.buffer[p.cursor]&0x7F) << (size * 7)
-		p.cursor++
-		size++
-	}
-	value |= int64(p.buffer[p.cursor]&0x7f) << (size * 7)
-	p.cursor += 1
-
+	value, shift := DecodeVarInt(p.buffer[p.cursor:])
+	p.cursor += int(shift)
 	return value
 }
 

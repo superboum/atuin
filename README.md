@@ -9,7 +9,7 @@ Build
 -----
 
 ```
-go get github.com:superboum/atuin/...
+go get -u github.com:superboum/atuin/...
 ```
 
 Tests
