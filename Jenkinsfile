@@ -6,5 +6,6 @@ node {
 
   checkout([$class: 'GitSCM', branches: [[name: "origin/${env.BRANCH_NAME}"]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'src/github.com/superboum/atuin']], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/superboum/atuin.git']]])
 
+  sh 'go build github.com/superboum/atuin/...'
   sh 'go test -v github.com/superboum/atuin/...'
 }
