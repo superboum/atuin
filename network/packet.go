@@ -48,17 +48,8 @@ func (p *Packet) ReadUnsignedShort() uint16 {
 }
 
 func (p *Packet) ReadVarInt() int64 {
-	value := int64(0)
-	size := uint32(0)
-
-	for p.buffer[p.cursor]>>7 == 1 {
-		value |= int64(p.buffer[p.cursor]&0x7F) << (size * 7)
-		p.cursor++
-		size++
-	}
-	value |= int64(p.buffer[p.cursor]&0x7f) << (size * 7)
-	p.cursor += 1
-
+	value, shift := DecodeVarInt(p.buffer[p.cursor:])
+	p.cursor += int(shift)
 	return value
 }
 

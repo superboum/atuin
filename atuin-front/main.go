@@ -11,7 +11,7 @@ const (
 )
 
 func main() {
-	fmt.Println("DIORITE FRONT")
+	fmt.Println("ATUIN FRONT")
 
 	networkManager := network.NewManager()
 	networkManager.RegisterCommand(0, network.NewHandshake)
