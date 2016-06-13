@@ -1,5 +1,8 @@
 package network
 
+// Decode a VarInt
+// VarInt is a way to encode numbers documented by Google
+// By using it, you can save a lot of space with small numbers
 func DecodeVarInt(buffer []byte) (int64, uint32) {
 	value := int64(0)
 	size := uint32(0)
